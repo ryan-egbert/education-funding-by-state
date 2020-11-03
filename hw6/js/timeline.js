@@ -54,6 +54,7 @@ function createTimeline(data) {
         .attr("cy", 25)
         .attr("fill", "black")
         .on("mouseover", (d,i) => {
+            console.log(d)
             let bubble = d3.select(event.currentTarget);
             bubble.attr("r", 15);
             bubble.style("fill", "red");
@@ -71,6 +72,10 @@ function createTimeline(data) {
             text.style("font-size", "1em");
             text.style("color", "black");
         })
+        .on("click", (d,i) => {   
+            expendBarGraph(data, d);
+            revenueBarGraph(data, d);
+        });
 
     svg.selectAll("text")
         .data(Array.from(years))

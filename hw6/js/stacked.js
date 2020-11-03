@@ -1,27 +1,38 @@
-function expendBarGraph(data){
+let stacked_margin = {top: 20, right: 20, bottom: 30, left: 40};
+let stacked_width = 750 - stacked_margin.left - stacked_margin.right;
+let stacked_height = 250 - stacked_margin.top - stacked_margin.bottom;
+
+function expendBarGraph(all_data, year){
+  let data = [];
+  all_data.forEach(d => {
+    if (d.year == year) {
+      data.push(d);
+    }
+  });
   var subgroups = ["instrunction_expend", "support_expend", "capital_expend" , "other_expend"];
   var groups = d3.map(data, function(d){return(d.state_lc)}).keys()
-  console.log(groups)
+  // // console.log(groups)
   // append the svg object to the body of the page
+  d3.selectAll("#Expend > *").remove();
   let svg = d3.select("#Expend")
               .append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
+              .attr("width", stacked_width + stacked_margin.left + stacked_margin.right)
+              .attr("height", stacked_height + stacked_margin.top + stacked_margin.bottom)
               .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+              .attr("transform", "translate(" + stacked_margin.left + "," + stacked_margin.top + ")");
 
   let x = d3.scaleBand()
             .domain(groups)
-            .range([0, width])
+            .range([0, stacked_width])
             .padding([0.2])
 
   svg.append("g")
-     .attr("transform", "translate(0," + height + ")")
+     .attr("transform", "translate(0," + stacked_height + ")")
      .call(d3.axisBottom(x).tickFormat(""));
 
   let y = d3.scaleLinear()
             .domain([0, d3.max(data, function(d) { return +d.total_expend; })])
-            .range([ height, 0 ]);
+            .range([ stacked_height, 0 ]);
 
   svg.append("g")
      .call(d3.axisLeft(y).tickFormat(""))
@@ -33,7 +44,7 @@ function expendBarGraph(data){
   var stackedData = d3.stack()
                       .keys(subgroups)(data)
  
-  console.log(stackedData);
+  // console.log(stackedData);
 
   // Show the bars
   svg.append("g")
@@ -58,16 +69,16 @@ function expendBarGraph(data){
                       .enter().append("g")
                       .attr("class", "legend")
                       .attr("transform", function(d, i) { return "translate(-225," + i * 19 + ")"; });
-      console.log(color.range())
+      // console.log(color.range())
       legend.append("rect")
-            .attr("x", width - 18)
+            .attr("x", stacked_width - 18)
             .attr("width", 18)
             .attr("height", 18)
             .style("fill", function(d, i) {
                   return color.range()[i]});
            
       legend.append("text")
-            .attr("x", width + 5)
+            .attr("x", stacked_width + 5)
             .attr("y", 9)
             .attr("dy", ".35em")
             .style("text-anchor", "start")
@@ -81,30 +92,37 @@ function expendBarGraph(data){
             });
 }
 
-function revenueBarGraph(data){
+function revenueBarGraph(all_data, year){
+      let data = [];
+      all_data.forEach(d => {
+        if (d.year == year) {
+          data.push(d);
+        }
+      });
       var subgroups = ["local_rev", "state_rev", "fed_rev"];
       var groups = d3.map(data, function(d){return(d.state_lc)}).keys()
-      console.log(groups)
+      // console.log(groups)
       // append the svg object to the body of the page
+      d3.select("#Revenue > *").remove();
       let svg = d3.select("#Revenue")
                   .append("svg")
-                  .attr("width", width + margin.left + margin.right)
-                  .attr("height", height + margin.top + margin.bottom)
+                  .attr("width", stacked_width + stacked_margin.left + stacked_margin.right)
+                  .attr("height", stacked_height + stacked_margin.top + stacked_margin.bottom)
                   .append("g")
-                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                  .attr("transform", "translate(" + stacked_margin.left + "," + stacked_margin.top + ")");
     
       let x = d3.scaleBand()
                 .domain(groups)
-                .range([0, width])
+                .range([0, stacked_width])
                 .padding([0.2])
     
       svg.append("g")
-         .attr("transform", "translate(0," + height + ")")
+         .attr("transform", "translate(0," + stacked_height + ")")
          .call(d3.axisBottom(x).tickFormat(""));
     
       let y = d3.scaleLinear()
                 .domain([0, d3.max(data, function(d) { return +d.total_rev; })])
-                .range([ height, 0 ]);
+                .range([ stacked_height, 0 ]);
     
       svg.append("g")
          .call(d3.axisLeft(y).tickFormat(""))
@@ -116,7 +134,7 @@ function revenueBarGraph(data){
       var stackedData = d3.stack()
                           .keys(subgroups)(data)
      
-      console.log(stackedData);
+      // console.log(stackedData);
     
       // Show the bars
       svg.append("g")
@@ -143,13 +161,13 @@ function revenueBarGraph(data){
                       .attr("class", "legend")
                       .attr("transform", function(d, i) { return "translate(-225," + i * 19 + ")"; });
       legend.append("rect")
-            .attr("x", width - 18)
+            .attr("x", stacked_width - 18)
             .attr("width", 18)
             .attr("height", 18)
             .style("fill", function(d, i) {return color.range()[i]});
                  
       legend.append("text")
-            .attr("x", width + 5)
+            .attr("x", stacked_width + 5)
             .attr("y", 9)
             .attr("dy", ".35em")
             .style("text-anchor", "start")

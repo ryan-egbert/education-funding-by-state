@@ -63,17 +63,17 @@ function init() {
       data.push({'primary_key':d.PRIMARY_KEY, 'state':d.STATE, 'state_lc':map.get(d.STATE), 'year':d.YEAR, 'enroll':d.ENROLL, 'total_rev':+d.TOTAL_REVENUE, 'fed_rev':+d.FEDERAL_REVENUE, 'state_rev':+d.STATE_REVENUE, 'local_rev':+d.LOCAL_REVENUE, 'total_expend':+d.TOTAL_EXPENDITURE, 'instrunction_expend':+d.INSTRUCTION_EXPENDITURE, 'support_expend':+d.SUPPORT_SERVICES_EXPENDITURE, 'other_expend':+d.OTHER_EXPENDITURE, 'capital_expend':+d.CAPITAL_OUTLAY_EXPENDITURE});
     }).then(() => {
     matrix(matrix_data);
-  console.log(data);
-  console.log(matrix_data);
+  // console.log(data);
+  // console.log(matrix_data);
   let stacked = [];
   data.forEach(d => {
     if (d.year == "1993") {
       stacked.push(d);
     } 
   })
-  console.log(stacked);
-  expendBarGraph(stacked);
-  revenueBarGraph(stacked);
+  // console.log(stacked);
+  expendBarGraph(data, "1993");
+  revenueBarGraph(data, "1993");
   createTimeline(data);
   });
 }
