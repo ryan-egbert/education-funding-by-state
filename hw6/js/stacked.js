@@ -155,10 +155,9 @@ function revenueBarGraph(data){
             .style("text-anchor", "start")
             .text(function(d, i) { 
                   switch (i) {
-                      case 0: return "Instructional Expenditures";
-                      case 1: return "Support Expenditures";
-                      case 2: return "Capital Expenditures";
-                      case 3: return "Other Expenditures";
+                      case 0: return "Local Revenue";
+                      case 1: return "State Revenue";
+                      case 2: return "Federal Revenue";
                   }
             });   
 }
