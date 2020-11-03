@@ -74,6 +74,7 @@ function init() {
   console.log(stacked);
   expendBarGraph(stacked);
   revenueBarGraph(stacked);
+  createTimeline(data);
   });
 }
 
