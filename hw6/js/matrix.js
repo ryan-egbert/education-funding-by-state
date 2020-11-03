@@ -26,4 +26,17 @@ function matrix(data){
     .attr("height", function(d) { return rectHeight; })
     .attr("id", function(d){return `${d.Abbreviation + `Matrix`}`})
     .merge(currentRectangles)
+
+    svg.selectAll('label')
+    .data(data)
+    .enter()
+    .append('text')
+    .attr('x', d => rectWidth*d.Column + rectWidth/2)
+    .attr('y', d => rectHeight*d.Row + rectHeight/2)
+    .attr('dy', '-.5em')
+    .text(d => `${d.Abbreviation}`)
+    .attr('text-anchor', 'middle')
+    .classed('tilestext', true)
+    .attr('class', 'label')
+    .attr('pointer-events', 'none')
 }
