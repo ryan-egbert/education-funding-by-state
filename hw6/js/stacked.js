@@ -135,7 +135,7 @@ function revenueBarGraph(data){
                   d3.select(this)
                   .append("svg:title")
                   .text(`${d.data.state_lc}\n Percent of Total: ${100 * (+d[1] - +d[0])/ d.data.total_rev}`);
-                });
+         });
       
       var legend = svg.selectAll(".legend")
                       .data(color.range())
