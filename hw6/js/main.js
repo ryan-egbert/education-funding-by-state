@@ -1,4 +1,5 @@
 let data = [];
+let matrix_data = [];
 let map = new Map();
 
 map.set('ALABAMA', 'Alabama');
@@ -54,10 +55,16 @@ map.set('WISCONSIN', 'Wisconsin');
 map.set('WYOMING', 'Wyoming');
 
 function init() {
+    d3.csv("data/state_position.csv", d => {
+        matrix_data.push({'Abbreviation':d.Abbreviation,'State':d.State, 'Region':d.Region, 'Row':+d.Row, 'Column':+d.Column});
+    });
+
     d3.csv("data/states_all.csv", d => {
       data.push({'primary_key':d.PRIMARY_KEY, 'state':d.STATE, 'state_lc':map.get(d.STATE), 'year':d.YEAR, 'enroll':d.ENROLL, 'total_rev':d.TOTAL_REVENUE, 'fed_rev':d.FEDERAL_REVENUE, 'state_rev':d.STATE_REVENUE, 'local_rev':d.LOCAL_REVENUE, 'total_expend':d.TOTAL_EXPENDITURE, 'instrunction_expend':d.INSTRUCTION_EXPENDITURE, 'support_expend':d.SUPPORT_SERVICES_EXPENDITURE, 'other_expend':d.OTHER_EXPENDITURE, 'capital_expend':d.CAPITAL_OUTLAY_EXPENDITURE});
-}).then(() => {
+    }).then(() => {
+    matrix(matrix_data);
   console.log(data);
+  console.log(matrix_data);
   });
 }
 
