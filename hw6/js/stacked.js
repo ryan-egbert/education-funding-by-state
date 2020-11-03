@@ -44,14 +44,14 @@ function expendBarGraph(all_data, year){
   var stackedData = d3.stack()
                       .keys(subgroups)(data)
  
-  // console.log(stackedData);
+  console.log(stackedData);
 
   // Show the bars
   svg.append("g")
   .selectAll("g")
   .data(stackedData)
   .enter().append("g")
-    .attr("fill", function(d) { return color(d.key); })
+    .attr("fill", function(d) { return "#bbbbbb"; })
     .selectAll("rect")
     .data(function(d) { return d; })
     .enter().append("rect")
@@ -59,6 +59,7 @@ function expendBarGraph(all_data, year){
             .attr("y", function(d) { return y(d[1]); })
             .attr("height", function(d) { return y(d[0]) - y(d[1]); })
             .attr("width",x.bandwidth())
+            .attr("class", d => d.data.state_lc.replace(" ", "_"))
             .on('mouseover', function(d){
                   d3.select(this)
                   .append("svg:title")
@@ -141,7 +142,7 @@ function revenueBarGraph(all_data, year){
       .selectAll("g")
       .data(stackedData)
       .enter().append("g")
-        .attr("fill", function(d) { return color(d.key); })
+        .attr("fill", function(d) { return "#bbbbbb"; })
         .selectAll("rect")
         .data(function(d) { return d; })
         .enter().append("rect")
@@ -149,6 +150,7 @@ function revenueBarGraph(all_data, year){
                 .attr("y", function(d) { return y(d[1]); })
                 .attr("height", function(d) { return y(d[0]) - y(d[1]); })
                 .attr("width",x.bandwidth())
+                .attr("class", d => d.data.state_lc.replace(" ", "_"))
                 .on('mouseover', function(d){
                   d3.select(this)
                   .append("svg:title")

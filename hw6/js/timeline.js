@@ -57,7 +57,7 @@ function createTimeline(data) {
             console.log(d)
             let bubble = d3.select(event.currentTarget);
             bubble.attr("r", 15);
-            bubble.style("fill", "red");
+            // bubble.style("fill", "red");
 
             let text = d3.select(`#circle-${d}`);
             text.style("font-size", "2em");
@@ -72,7 +72,18 @@ function createTimeline(data) {
             text.style("font-size", "1em");
             text.style("color", "black");
         })
-        .on("click", (d,i) => {   
+        .on("click", (d,i) => {
+            let circle = document.getElementsByClassName("selected-circle");
+            if (circle.length == 1) {
+                circle[0].classList.remove("selected-circle");
+            }
+            let text = document.getElementsByClassName("selected-text");
+            if (text.length == 1) {
+                text[0].classList.remove("selected-text");
+            }
+            d3.select(event.currentTarget).attr("class", "selected-circle");
+            d3.select(`#circle-${d}`).attr("class", "selected-text")
+            matrix(matrix_data, data, d)
             expendBarGraph(data, d);
             revenueBarGraph(data, d);
         });
