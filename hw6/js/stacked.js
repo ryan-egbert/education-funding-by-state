@@ -1,5 +1,5 @@
 function expendBarGraph(data){
-  var subgroups = ["instrunction_expend", "support_expend", "other_expend", "capital_expend"];
+  var subgroups = ["instrunction_expend", "support_expend", "capital_expend" , "other_expend"];
   var groups = d3.map(data, function(d){return(d.state_lc)}).keys()
   console.log(groups)
   // append the svg object to the body of the page
@@ -48,6 +48,37 @@ function expendBarGraph(data){
             .attr("y", function(d) { return y(d[1]); })
             .attr("height", function(d) { return y(d[0]) - y(d[1]); })
             .attr("width",x.bandwidth())
+            .on('mouseover', function(d){
+                  d3.select(this)
+                  .append("svg:title")
+                  .text(`${d.data.state_lc}\n Percent of Total: ${100 * (+d[1] - +d[0])/ d.data.total_expend}`);
+            })
+      var legend = svg.selectAll(".legend")
+                      .data(color.range())
+                      .enter().append("g")
+                      .attr("class", "legend")
+                      .attr("transform", function(d, i) { return "translate(-225," + i * 19 + ")"; });
+      console.log(color.range())
+      legend.append("rect")
+            .attr("x", width - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d, i) {
+                  return color.range()[i]});
+           
+      legend.append("text")
+            .attr("x", width + 5)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(function(d, i) { 
+              switch (i) {
+                case 0: return "Instructional Expenditures";
+                case 1: return "Support Expenditures";
+                case 2: return "Capital Expenditures";
+                case 3: return "Other Expenditures";
+              }
+            });
 }
 
 function revenueBarGraph(data){
@@ -100,5 +131,34 @@ function revenueBarGraph(data){
                 .attr("y", function(d) { return y(d[1]); })
                 .attr("height", function(d) { return y(d[0]) - y(d[1]); })
                 .attr("width",x.bandwidth())
+                .on('mouseover', function(d){
+                  d3.select(this)
+                  .append("svg:title")
+                  .text(`${d.data.state_lc}\n Percent of Total: ${100 * (+d[1] - +d[0])/ d.data.total_rev}`);
+                });
+      
+      var legend = svg.selectAll(".legend")
+                      .data(color.range())
+                      .enter().append("g")
+                      .attr("class", "legend")
+                      .attr("transform", function(d, i) { return "translate(-225," + i * 19 + ")"; });
+      legend.append("rect")
+            .attr("x", width - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d, i) {return color.range()[i]});
+                 
+      legend.append("text")
+            .attr("x", width + 5)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(function(d, i) { 
+                  switch (i) {
+                      case 0: return "Instructional Expenditures";
+                      case 1: return "Support Expenditures";
+                      case 2: return "Capital Expenditures";
+                      case 3: return "Other Expenditures";
+                  }
+            });   
 }
-
