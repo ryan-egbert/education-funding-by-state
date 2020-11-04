@@ -15,9 +15,6 @@ const rect_height = matrix_height / 10;
 function matrix(data, fin_data, year){ 
   let plus_states = new Set();
   let minus_states = new Set();
-  // console.log(data);
-  // console.log(fin_data);
-  // console.log(year)
   d3.selectAll("#Matrix > *").remove();
   let svg = d3.select("#Matrix")
               .append("svg")
@@ -28,8 +25,6 @@ function matrix(data, fin_data, year){
   currentRectangles
     .exit()
     .remove();
-
-  console.log(data)
 
   currentRectangles.data(data)
     .enter()
@@ -61,8 +56,6 @@ function matrix(data, fin_data, year){
       }
     })
     .on("mouseover", (d,i) => {
-      // console.log(minus_states);
-      // console.log(plus_states)
       if (minus_states.has(d.State)) {
         d3.select(event.currentTarget).style("fill", minus_deep);
       }

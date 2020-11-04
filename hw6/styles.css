@@ -1,3 +1,7 @@
+body {
+    text-align: center;
+}
+
 .tile{
     /* fill:#ff6060; */
     stroke-width: 5;
@@ -10,7 +14,8 @@ text {
 
 .flex-container {
     display: flex;
-    /* width: 50%; */
+    width: 80%;
+    margin-left: 10%;
 }
 
 .flex-child {

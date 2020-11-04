@@ -82,17 +82,6 @@ function createOverUnder(state_data, year) {
         .domain([minArrR(all_states), maxArrR(all_states)])
         .range([5,12])
 
-    // console.log(minArrX(all_states))
-    // console.log(maxArrX(all_states))
-    // console.log(minArrX(all_states))
-    // console.log(minArrX(all_states))
-    // console.log(all_states[0])
-    // console.log(xscale(all_states[0].enroll))
-    // console.log(xscale(parseInt(all_states[0].enroll)))
-
-    console.log(all_states)
-    console.log(xscale(all_states[50].percent))
-
     let margin = 30
 
     let centerLine = svg.selectAll("line")

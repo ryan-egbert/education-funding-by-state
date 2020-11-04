@@ -11,7 +11,6 @@ function expendBarGraph(all_data, year){
   });
   var subgroups = ["instrunction_expend", "support_expend", "capital_expend" , "other_expend"];
   var groups = d3.map(data, function(d){return(d.state_lc)}).keys()
-  // // console.log(groups)
   // append the svg object to the body of the page
   d3.selectAll("#Expend > *").remove();
   let svg = d3.select("#Expend")
@@ -35,7 +34,7 @@ function expendBarGraph(all_data, year){
             .range([ stacked_height, 0 ]);
 
   svg.append("g")
-     .call(d3.axisLeft(y).tickFormat(""))
+     .call(d3.axisLeft(y).ticks(10).tickFormat(d3.formatPrefix(".0s", 1e6)))
   // color palette = one color per subgroup
   var color = d3.scaleOrdinal()
                 .domain(subgroups)
@@ -43,8 +42,6 @@ function expendBarGraph(all_data, year){
 
   var stackedData = d3.stack()
                       .keys(subgroups)(data)
- 
-  console.log(stackedData);
 
   // Show the bars
   svg.append("g")
@@ -70,7 +67,6 @@ function expendBarGraph(all_data, year){
                       .enter().append("g")
                       .attr("class", "legend")
                       .attr("transform", function(d, i) { return "translate(-225," + i * 19 + ")"; });
-      // console.log(color.range())
       legend.append("rect")
             .attr("x", stacked_width - 18)
             .attr("width", 18)
@@ -102,7 +98,7 @@ function revenueBarGraph(all_data, year){
       });
       var subgroups = ["local_rev", "state_rev", "fed_rev"];
       var groups = d3.map(data, function(d){return(d.state_lc)}).keys()
-      // console.log(groups)
+
       // append the svg object to the body of the page
       d3.select("#Revenue > *").remove();
       let svg = d3.select("#Revenue")
@@ -126,7 +122,7 @@ function revenueBarGraph(all_data, year){
                 .range([ stacked_height, 0 ]);
     
       svg.append("g")
-         .call(d3.axisLeft(y).tickFormat(""))
+         .call(d3.axisLeft(y).ticks(10).tickFormat(d3.formatPrefix(".0s", 1e6)))
       // color palette = one color per subgroup
       var color = d3.scaleOrdinal()
                     .domain(subgroups)
@@ -134,8 +130,6 @@ function revenueBarGraph(all_data, year){
     
       var stackedData = d3.stack()
                           .keys(subgroups)(data)
-     
-      // console.log(stackedData);
     
       // Show the bars
       svg.append("g")

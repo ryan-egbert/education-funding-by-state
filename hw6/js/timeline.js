@@ -54,7 +54,6 @@ function createTimeline(data) {
         .attr("cy", 25)
         .attr("fill", "black")
         .on("mouseover", (d,i) => {
-            console.log(d)
             let bubble = d3.select(event.currentTarget);
             bubble.attr("r", 15);
             // bubble.style("fill", "red");

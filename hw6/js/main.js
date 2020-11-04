@@ -23,7 +23,7 @@ map.set('KENTUCKY', 'Kentucky');
 map.set('LOUISIANA', 'Louisiana');
 map.set('MAINE', 'Maine');
 map.set('MARYLAND', 'Maryland');
-map.set('MASSACHUSETTS', 'Massachusettes');
+map.set('MASSACHUSETTS', 'Massachusetts');
 map.set('MICHIGAN', 'Michigan');
 map.set('MINNESOTA', 'Minnesota');
 map.set('MISSISSIPPI', 'Mississippi');
@@ -44,7 +44,7 @@ map.set('PENNSYLVANIA', 'Pennsylvania');
 map.set('RHODE_ISLAND', 'Rhode Island');
 map.set('SOUTH_CAROLINA', 'South Carolina');
 map.set('SOUTH_DAKOTA', 'South Dakota');
-map.set('TENNESSEE', 'Tennesse');
+map.set('TENNESSEE', 'Tennessee');
 map.set('TEXAS', 'Texas');
 map.set('UTAH', 'Utah');
 map.set('VERMONT', 'Vermont');
@@ -55,23 +55,22 @@ map.set('WISCONSIN', 'Wisconsin');
 map.set('WYOMING', 'Wyoming');
 
 function init() {
+  let abbreviation_map = {}
     d3.csv("data/state_position.csv", d => {
         matrix_data.push({'Abbreviation':d.Abbreviation,'State':d.State, 'Region':d.Region, 'Row':+d.Row, 'Column':+d.Column});
+        abbreviation_map[d.State] = d.Abbreviation;
     });
 
     d3.csv("data/states_all.csv", d => {
-      data.push({'primary_key':d.PRIMARY_KEY, 'state':d.STATE, 'state_lc':map.get(d.STATE), 'year':d.YEAR, 'enroll':d.ENROLL, 'total_rev':+d.TOTAL_REVENUE, 'fed_rev':+d.FEDERAL_REVENUE, 'state_rev':+d.STATE_REVENUE, 'local_rev':+d.LOCAL_REVENUE, 'total_expend':+d.TOTAL_EXPENDITURE, 'instrunction_expend':+d.INSTRUCTION_EXPENDITURE, 'support_expend':+d.SUPPORT_SERVICES_EXPENDITURE, 'other_expend':+d.OTHER_EXPENDITURE, 'capital_expend':+d.CAPITAL_OUTLAY_EXPENDITURE});
+      data.push({'primary_key':d.PRIMARY_KEY, 'state':d.STATE, 'state_lc':map.get(d.STATE), 'year':d.YEAR, 'enroll':d.ENROLL, 'total_rev':+d.TOTAL_REVENUE, 'fed_rev':+d.FEDERAL_REVENUE, 'state_rev':+d.STATE_REVENUE, 'local_rev':+d.LOCAL_REVENUE, 'total_expend':+d.TOTAL_EXPENDITURE, 'instrunction_expend':+d.INSTRUCTION_EXPENDITURE, 'support_expend':+d.SUPPORT_SERVICES_EXPENDITURE, 'other_expend':+d.OTHER_EXPENDITURE, 'capital_expend':+d.CAPITAL_OUTLAY_EXPENDITURE, 'abbreviation':abbreviation_map[map.get(d.STATE)]});
     }).then(() => {
     matrix(matrix_data, data, "1993");
-  // console.log(data);
-  // console.log(matrix_data);
   let stacked = [];
   data.forEach(d => {
     if (d.year == "1993") {
       stacked.push(d);
     } 
   })
-  // console.log(stacked);
   expendBarGraph(data, "1993");
   revenueBarGraph(data, "1993");
   createTimeline(data);
