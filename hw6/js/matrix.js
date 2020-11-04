@@ -76,7 +76,18 @@ function matrix(data, fin_data, year){
           return res;
         });
       d3.selectAll(`.${d.State.replace(" ", "_")}_circle`)
-        .style("fill", "black")
+        .style("fill", "black");
+      let fin_d;
+      for (let i = 0; i < fin_data.length; i++) {
+        if (fin_data[i].state_lc == d.State && fin_data[i].year == year) {
+          fin_d = fin_data[i];
+          break;
+        }
+      }
+      tooltipMouseOver(fin_d);
+    })
+    .on("mousemove", (d,i) => {
+      tooltipMouseMove();
     })
     .on("mouseout", (d,i) => {
       if (minus_states.has(d.State)) {
@@ -90,6 +101,7 @@ function matrix(data, fin_data, year){
       d3.selectAll(`.${d.State.replace(" ", "_")}_circle`)
         .style("fill", "none")
       c_index = 0;
+      tooltipMouseOut();
     })
     .merge(currentRectangles)
 

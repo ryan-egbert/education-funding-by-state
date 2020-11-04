@@ -76,6 +76,7 @@ function init() {
   revenueBarGraph(data, "1993");
   createTimeline(data);
   createOverUnder(data, "1993");
+  createTooltip();
   });
 }
 

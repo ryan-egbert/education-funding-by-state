@@ -39,9 +39,13 @@ function maxArrR(arr) {
 }
 
 function updateOverUnderList(state_list) {
-    let html = "<ul>"
+    let html = "<ul>";
     for (let i = 0; i < state_list.length; i++) {
-        html += `<li>${state_list[i].state}</li>`
+        let color = "#52d972";
+        if (state_list[i].percent < 1) {
+            color = "#ff8586";
+        }
+        html += `<li style="color: ${color}">${state_list[i].state}</li>`
     }
     html += "</ul>"
 
@@ -92,13 +96,13 @@ function createOverUnder(state_data, year) {
     let margin = 30
 
     let centerLine = svg.selectAll("line")
-        .data([0]);
+        .data([0.9, 1, 1.1]);
     
     centerLine.enter()
         .append("line")
         .merge(centerLine)
-        .attr("x1", xscale(1.0))
-        .attr("x2", xscale(1.0))
+        .attr("x1", d => xscale(d))
+        .attr("x2", d => xscale(d))
         .attr("y1", 20)
         .attr("y2", 70)
         .style("stroke", "black")
@@ -137,7 +141,21 @@ function createOverUnder(state_data, year) {
         // .attr("width", d => xscale(parseInt(d.enroll)))
         // .attr("height", 15)
         .style("fill", "none")
-        .style("stroke", "none")
+        .style("stroke", "none");
+
+    let textPos = [
+        { text: "-10%", x: 30, y: 100 },
+        { text: "0%", x: 600, y: 100 },
+        { text: "10%", x: 1170, y: 100 },
+    ]
+    svg.selectAll("text")
+        .data(textPos)
+        .enter()
+        .append("text")
+        .attr("x", d => d.x)
+        .attr("y", d => d.y)
+        .attr("text-anchor", "middle")
+        .text(d => d.text);
 
     let brush = d3.brushX()
         .extent([[0,0], [1200,75]])

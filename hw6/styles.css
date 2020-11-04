@@ -30,3 +30,11 @@ text {
     font-size: 2em;
     color: red;
 }
+
+.over {
+    color: #00940c;
+}
+
+.under {
+    color: #ff333a;
+}
