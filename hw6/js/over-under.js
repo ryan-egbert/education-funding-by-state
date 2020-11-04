@@ -60,8 +60,9 @@ function create_over_under(state_data, year) {
     });
 
     let xscale = d3.scaleLinear()
-        .domain([minArrX(all_states), maxArrX(all_states)])
-        .range([0,1000])
+        // .domain([minArrX(all_states), maxArrX(all_states)])
+        .domain([0.9,1.1])
+        .range([30,1030])
 
     let rscale = d3.scaleLinear()
         .domain([minArrR(all_states), maxArrR(all_states)])
