@@ -76,7 +76,7 @@ function matrix(data, fin_data, year){
           return res;
         });
       d3.selectAll(`.${d.State.replace(" ", "_")}_circle`)
-        .style("fill", "red")
+        .style("fill", "black")
     })
     .on("mouseout", (d,i) => {
       if (minus_states.has(d.State)) {

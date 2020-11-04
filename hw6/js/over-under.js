@@ -38,7 +38,17 @@ function maxArrR(arr) {
     return max;
 }
 
-function create_over_under(state_data, year) {
+function updateOverUnderList(state_list) {
+    let html = "<ul>"
+    for (let i = 0; i < state_list.length; i++) {
+        html += `<li>${state_list[i].state}</li>`
+    }
+    html += "</ul>"
+
+    d3.select("#over-under-list").html(html);
+}
+
+function createOverUnder(state_data, year) {
     d3.selectAll("#over-under > *").remove();
     let svg = d3.select("#over-under");
 
@@ -62,7 +72,7 @@ function create_over_under(state_data, year) {
     let xscale = d3.scaleLinear()
         // .domain([minArrX(all_states), maxArrX(all_states)])
         .domain([0.9,1.1])
-        .range([30,1030])
+        .range([30,1170])
 
     let rscale = d3.scaleLinear()
         .domain([minArrR(all_states), maxArrR(all_states)])
@@ -81,16 +91,71 @@ function create_over_under(state_data, year) {
 
     let margin = 30
 
-    svg.selectAll("circle")
+    let centerLine = svg.selectAll("line")
+        .data([0]);
+    
+    centerLine.enter()
+        .append("line")
+        .merge(centerLine)
+        .attr("x1", xscale(1.0))
+        .attr("x2", xscale(1.0))
+        .attr("y1", 20)
+        .attr("y2", 70)
+        .style("stroke", "black")
+        .style("stroke-width", 3)
+
+    svg.selectAll("line")
         .data(all_states)
         .enter()
+        .append("line")
+        // .merge(centerLine)
+        .attr("x1", d => xscale(d.percent))
+        .attr("x2", d => xscale(d.percent))
+        .attr("y1", d => 45 + rscale(d.enroll))
+        .attr("y2", d => 45 - rscale(d.enroll))
+        .style("stroke", d => {
+            if (d.percent < 1) {
+                return "red";
+            }
+            else {
+                return "green";
+            }
+        })
+        .style("stroke-width", 2)
+        .attr("class","over-under-lines")
+
+    let circles = svg.selectAll("circle")
+        .data(all_states)
+    
+    circles
+        .enter()
         .append("circle")
-        .attr("cx", d => 30 + xscale(d.percent))
-        .attr("cy", 15)
+        .attr("cx", d => xscale(d.percent))
+        .attr("cy", 45)
         .attr("r", d => rscale(parseInt(d.enroll)))
         .attr("class", d => `${d.state.replace(" ", "_")}_circle`)
         // .attr("width", d => xscale(parseInt(d.enroll)))
         // .attr("height", 15)
         .style("fill", "none")
-        .style("stroke", "black")
+        .style("stroke", "none")
+
+    let brush = d3.brushX()
+        .extent([[0,0], [1200,75]])
+        .on("end", () => {
+            let x0 = d3.event.selection[0];
+            let x1 = d3.event.selection[1];
+            let lines = svg.selectAll("line.over-under-lines")
+            let selected = [];
+
+            lines.each(d => {
+                let x = xscale(d.percent)
+                if (x > x0 && x < x1) {
+                    selected.push(d)
+                }
+            });
+
+            updateOverUnderList(selected);
+        })
+
+    svg.append("g").attr("class", "brush").call(brush);
 }

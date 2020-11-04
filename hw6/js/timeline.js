@@ -86,7 +86,7 @@ function createTimeline(data) {
             matrix(matrix_data, data, d)
             expendBarGraph(data, d);
             revenueBarGraph(data, d);
-            create_over_under(data, d);
+            createOverUnder(data, d);
         });
 
     svg.selectAll("text")
