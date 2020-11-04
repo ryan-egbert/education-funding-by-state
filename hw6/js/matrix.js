@@ -15,9 +15,9 @@ const rect_height = matrix_height / 10;
 function matrix(data, fin_data, year){ 
   let plus_states = new Set();
   let minus_states = new Set();
-  console.log(data);
-  console.log(fin_data);
-  console.log(year)
+  // console.log(data);
+  // console.log(fin_data);
+  // console.log(year)
   d3.selectAll("#Matrix > *").remove();
   let svg = d3.select("#Matrix")
               .append("svg")
@@ -61,8 +61,8 @@ function matrix(data, fin_data, year){
       }
     })
     .on("mouseover", (d,i) => {
-      console.log(minus_states);
-      console.log(plus_states)
+      // console.log(minus_states);
+      // console.log(plus_states)
       if (minus_states.has(d.State)) {
         d3.select(event.currentTarget).style("fill", minus_deep);
       }
@@ -75,6 +75,8 @@ function matrix(data, fin_data, year){
           c_index++;
           return res;
         });
+      d3.selectAll(`.${d.State.replace(" ", "_")}_circle`)
+        .style("fill", "red")
     })
     .on("mouseout", (d,i) => {
       if (minus_states.has(d.State)) {
@@ -85,6 +87,8 @@ function matrix(data, fin_data, year){
       }
       d3.selectAll(`.${d.State.replace(" ", "_")}`)
         .style("fill", "#bbbbbb");
+      d3.selectAll(`.${d.State.replace(" ", "_")}_circle`)
+        .style("fill", "none")
       c_index = 0;
     })
     .merge(currentRectangles)
