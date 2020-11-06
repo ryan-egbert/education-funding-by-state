@@ -16,3 +16,7 @@ The page consists of four different visualizations:
 * over/under chart
 
 The over/under chart uses a brush tool that can select the different lines representing individual states
+
+
+### Credits
+Thanks to @rjgoodman1 for helping out with this project
